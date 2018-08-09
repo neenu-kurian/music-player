@@ -107,3 +107,4 @@ export const fetchRecommendations = (accessToken, seed_artists = "4NHQUGzhtTLFvg
     });
   };
 }
+

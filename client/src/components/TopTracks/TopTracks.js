@@ -10,6 +10,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Button from '@material-ui/core/Button'
 
 //material-ui styles
 const styles = theme => ({
@@ -44,34 +45,32 @@ const styles = theme => ({
   topTracks: {
     fontSize: '30px',
     color: 'white'
+  },
+  playbutton:{
+    color:'black',
+    backgroundColor:'white'
   }
 
 });
 
 //component that displays top tracks
 class TopTracks extends PureComponent {
+
+  // audio=new Audio();
+  // state={playing:false}
   
   //function to store the played song and get recommendations
-  handleClick = (song) => {
+  selectSong = (song) => {
     
-    //to store the song during first play
-    if((this.props.currentSong===undefined)&&(song!==null)){
     this.props.selectedSong(song)
+    // this.setState({playing:true})
+    // this.audio.src =song.preview_url
+    // this.audio.play()
+    // if(this.props.currentSong.id!==song.id)
     this.props.fetchRecommendations(this.props.token, song.artists[0].id, song.id)
-    }
-    
-    //to check if same song is played again , if not show new recommendations and call action creators
-    else if((this.props.currentSong!==null)&&(this.props.currentSong.id!==song.id)){
-      this.props.selectedSong(song)
-      this.props.fetchRecommendations(this.props.token, song.artists[0].id, song.id)
-    }
-
-    else
-    {
-      return null
-    }
-    
   }
+
+  
 
   render() {
 
@@ -90,7 +89,6 @@ class TopTracks extends PureComponent {
           {selectedTracks.map(eachTrack => (
             <div key={eachTrack.id}>
               <GridListTile className={classes.tile}>
-
                 <img src={eachTrack.album.images[0].url} alt={"song"}/>
                 <GridListTileBar
                   title={eachTrack.album.name}
@@ -100,8 +98,8 @@ class TopTracks extends PureComponent {
                 }}/>
               </GridListTile>
 
-              <audio controls ref="audio"  style={{width:'400px'}} src={eachTrack.preview_url} onPlay={() => this.handleClick(eachTrack)}>
-              </audio>
+             <Button className={classes.playbutton} onClick={()=>this.selectSong(eachTrack)}>Select</Button>
+
             </div>
           ))}
         </GridList>

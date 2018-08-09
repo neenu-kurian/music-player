@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 //components
 import Header from './components/Header';
 import TopTracks from './components/TopTracks/TopTracks'
-import Recommendations from './components/recommendations/Recommendations'
+import Recommendations from './components/Recommendations/Recommendations'
 //action creators
 import { fetchUser,fetchTopTracks,fetchRecommendations} from './actions/userActions';
 import { setToken } from './actions/tokenActions';
 //css
 import './App.css';
+import MediaControl from './components/CurrentSong/MediaControl';
 
 class App extends Component {
 
@@ -23,7 +24,7 @@ class App extends Component {
     }
     
     if(!hashParams.access_token) {
-	    window.location.href = 'https://accounts.spotify.com/authorize?client_id=a417fb58f6c84d0e83555b8137882a97&scope=user-read-email%20user-top-read%20user-read-private&response_type=token&redirect_uri=http://localhost:3000/callback';
+	    window.location.href = 'https://accounts.spotify.com/authorize?client_id=a417fb58f6c84d0e83555b8137882a97&scope=user-read-email%20user-top-read%20user-read-private%20user-modify-playback-state&response_type=token&redirect_uri=http://localhost:3000/callback';
 	  } else {
 	    this.props.setToken(hashParams.access_token);
 	  }
@@ -46,6 +47,7 @@ class App extends Component {
   
         <div >
         <Header/>
+        <MediaControl/>
         <TopTracks/>
         <Recommendations/>
         </div>
