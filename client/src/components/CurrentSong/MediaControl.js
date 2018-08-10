@@ -98,15 +98,28 @@ class MediaControlCard extends PureComponent {
     if(this.props.currentSongReducer.currentIndex>0){
       const prevSong=this.props.topTracks[this.props.currentSongReducer.currentIndex-1]
       this.props.selectedSong(prevSong,this.props.currentSongReducer.currentIndex-1)
+     
+    }
+
+    else{
+      const prevSong=this.props.topTracks[this.props.topTracks.length-1]
+      this.props.selectedSong(prevSong,this.props.topTracks.length-1)
     }
   }
    
   
   getNextTrack=()=>{
 
-    if(this.props.currentSongReducer.currentIndex>0){
+    if((this.props.currentSongReducer.currentIndex+1)!==this.props.topTracks.length){
       const nextSong=this.props.topTracks[this.props.currentSongReducer.currentIndex+1]
       this.props.selectedSong(nextSong,this.props.currentSongReducer.currentIndex+1)
+      
+    }
+
+    else
+    {
+      const nextSong=this.props.topTracks[0]
+      this.props.selectedSong(nextSong,0)
     }
   }
 
