@@ -84,7 +84,7 @@ class MediaControlCard extends PureComponent {
     this.props.selectedSong(song,this.props.currentSongReducer.currentIndex)
     this.audio.src =song.preview_url
     this.audio.play()
-    this.props.fetchRecommendations(this.props.token, song.artists[0].id, song.id)
+    // this.props.fetchRecommendations(this.props.token, song.artists[0].id, song.id)
   }
 
     pauseTrack=()=>{
@@ -94,39 +94,73 @@ class MediaControlCard extends PureComponent {
     }
 
   getPreviousTrack=()=>{
-
+    
+    let prevSong=""
+    if(this.props.recommendations.indexOf(this.props.currentSongReducer.currentSong)>-1){
     if(this.props.currentSongReducer.currentIndex>0){
-      const prevSong=this.props.topTracks[this.props.currentSongReducer.currentIndex-1]
-      this.props.selectedSong(prevSong,this.props.currentSongReducer.currentIndex-1)
-      this.audio.pause()
-      this.setState({playing:false})
-    }
-
-    else{
-      const prevSong=this.props.topTracks[this.props.topTracks.length-1]
-      this.props.selectedSong(prevSong,this.props.topTracks.length-1)
-      this.audio.pause()
-      this.setState({playing:false})
-    }
-  }
-   
-  
-  getNextTrack=()=>{
-
-    if((this.props.currentSongReducer.currentIndex+1)!==this.props.topTracks.length){
-      const nextSong=this.props.topTracks[this.props.currentSongReducer.currentIndex+1]
-      this.props.selectedSong(nextSong,this.props.currentSongReducer.currentIndex+1)
-      this.audio.pause()
-      this.setState({playing:false})
+    
+          prevSong=this.props.recommendations[this.props.currentSongReducer.currentIndex-1]
+          this.props.selectedSong(prevSong,this.props.currentSongReducer.currentIndex-1)
+      }
+      else{
+        prevSong=this.props.recommendations[this.props.recommendations.length-1]
+        this.props.selectedSong(prevSong,this.props.recommendations.length-1)
+      }
+      // this.props.selectedSong(prevSong,this.props.currentSongReducer.currentIndex-1)
+      
     }
 
     else
     {
-      const nextSong=this.props.topTracks[0]
-      this.props.selectedSong(nextSong,0)
-      this.audio.pause()
-      this.setState({playing:false})
+      if(this.props.currentSongReducer.currentIndex>0){
+    
+        prevSong=this.props.topTracks[this.props.currentSongReducer.currentIndex-1]
+        this.props.selectedSong(prevSong,this.props.currentSongReducer.currentIndex-1)
     }
+    else{
+      prevSong=this.props.topTracks[this.props.topTracks.length-1]
+      this.props.selectedSong(prevSong,this.props.topTracks.length-1)
+    }
+      
+    }
+
+
+    this.audio.pause()
+    this.setState({playing:false})
+  }
+   
+  
+  getNextTrack=()=>{
+    
+    let nextSong=""
+    if(this.props.recommendations.indexOf(this.props.currentSongReducer.currentSong)>-1){
+    if((this.props.currentSongReducer.currentIndex+1)!==this.props.recommendations.length){
+     
+         nextSong=this.props.recommendations[this.props.currentSongReducer.currentIndex+1]
+         this.props.selectedSong(nextSong,this.props.currentSongReducer.currentIndex+1)
+      }
+      else{
+         nextSong=this.props.recommendations[0]
+         this.props.selectedSong(nextSong,0)
+      }
+      // this.props.selectedSong(nextSong,this.props.currentSongReducer.currentIndex+1)
+      
+    }
+
+    else
+    {
+      if((this.props.currentSongReducer.currentIndex+1)!==this.props.topTracks.length){
+        nextSong=this.props.topTracks[this.props.currentSongReducer.currentIndex+1]
+         this.props.selectedSong(nextSong,this.props.currentSongReducer.currentIndex+1)
+      }
+      else{
+        nextSong=this.props.topTracks[0]
+        this.props.selectedSong(nextSong,0)
+     }
+      
+    }
+    this.audio.pause()
+      this.setState({playing:false})
   }
 
    render()
@@ -138,7 +172,7 @@ class MediaControlCard extends PureComponent {
 
    if(!currentTrack)
    return null
-
+   
 
    return (
     <div>
@@ -181,7 +215,9 @@ const mapStateToProps = (state) => {
   return {
     token: state.tokenReducer.token,
     currentSongReducer: state.currentSongReducer,
-    topTracks: state.topTracksReducer.topTracks? state.topTracksReducer.topTracks: ""
+    topTracks: state.topTracksReducer.topTracks? state.topTracksReducer.topTracks: "",
+    recommendations: state.recommendationsReducer.recommendations? state.recommendationsReducer.recommendations: "",
+ 
   };
 
 };
