@@ -8,7 +8,8 @@ export default(state = initialState, action) => {
     case CURRENT_SONG:
       return {
         ...state,
-        currentSong: action.payload
+        currentSong: action.payload.song,
+        currentIndex:action.payload.index
       }
     default:
       return state;

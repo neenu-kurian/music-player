@@ -82,7 +82,7 @@ export const fetchTopTracks = (accessToken) => {
 }
 
 //to store current played song
-export const selectedSong = (song) => ({type: CURRENT_SONG, payload: song})
+export const selectedSong = (song,index) => ({type: CURRENT_SONG, payload: {index,song}})
 
 //to fetch recommendations
 export const fetchRecommendations = (accessToken, seed_artists = "4NHQUGzhtTLFvgF5SZesLK", seed_tracks = "0c6xIDDpzE81m2q797ordA") => {
