@@ -11,7 +11,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseArrowIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import {connect} from "react-redux";
-import {selectedSong, fetchRecommendations} from '../../actions/userActions'
+import {selectedSong, fetchRecommendations, fetchTopTracks} from '../../actions/userActions'
 
 const styles = theme => ({
   card: {
@@ -81,10 +81,9 @@ class MediaControlCard extends PureComponent {
  
     this.setState({playing:true})
       
-    this.props.selectedSong(song)
+    this.props.selectedSong(song,this.props.currentSongReducer.currentIndex)
     this.audio.src =song.preview_url
     this.audio.play()
-    // if(this.props.currentSong.id!==song.id)
     this.props.fetchRecommendations(this.props.token, song.artists[0].id, song.id)
   }
 
@@ -94,17 +93,33 @@ class MediaControlCard extends PureComponent {
       this.audio.pause()
     }
 
+  getPreviousTrack=()=>{
+
+    if(this.props.currentSongReducer.currentIndex>0){
+      const prevSong=this.props.topTracks[this.props.currentSongReducer.currentIndex-1]
+      this.props.selectedSong(prevSong,this.props.currentSongReducer.currentIndex-1)
+    }
+  }
+   
   
+  getNextTrack=()=>{
+
+    if(this.props.currentSongReducer.currentIndex>0){
+      const nextSong=this.props.topTracks[this.props.currentSongReducer.currentIndex+1]
+      this.props.selectedSong(nextSong,this.props.currentSongReducer.currentIndex+1)
+    }
+  }
 
    render()
    {
 
-    const currentTrack = this.props.currentSong;
+    const currentTrack = this.props.currentSongReducer.currentSong;
   
     const { classes, theme } = this.props;
 
    if(!currentTrack)
    return null
+
 
    return (
     <div>
@@ -118,7 +133,7 @@ class MediaControlCard extends PureComponent {
             </Typography>
           </CardContent>
           <div className={classes.controls}>
-            <IconButton className={classes.controlIcons} aria-label="Previous">
+            <IconButton className={classes.controlIcons} aria-label="Previous" onClick={this.getPreviousTrack}>
               {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
             </IconButton>
             <IconButton  aria-label="Play/pause">
@@ -126,7 +141,7 @@ class MediaControlCard extends PureComponent {
               <PlayArrowIcon className={classes.playIcon} onClick={()=>this.playTrack(currentTrack)}/>}
          
             </IconButton>
-            <IconButton  className={classes.controlIcons} aria-label="Next">
+            <IconButton  className={classes.controlIcons} aria-label="Next" onClick={this.getNextTrack}>
               {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
             </IconButton>
           </div>
@@ -146,7 +161,8 @@ const mapStateToProps = (state) => {
 
   return {
     token: state.tokenReducer.token,
-    currentSong: state.currentSongReducer.currentSong
+    currentSongReducer: state.currentSongReducer,
+    topTracks: state.topTracksReducer.topTracks? state.topTracksReducer.topTracks: ""
   };
 
 };
@@ -156,4 +172,4 @@ MediaControlCard.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(connect(mapStateToProps,{selectedSong,fetchRecommendations})(MediaControlCard));
+export default withStyles(styles, { withTheme: true })(connect(mapStateToProps,{selectedSong,fetchRecommendations,fetchTopTracks})(MediaControlCard));

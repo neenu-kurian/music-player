@@ -60,13 +60,8 @@ class TopTracks extends PureComponent {
   // state={playing:false}
   
   //function to store the played song and get recommendations
-  selectSong = (song) => {
-    
-    this.props.selectedSong(song)
-    // this.setState({playing:true})
-    // this.audio.src =song.preview_url
-    // this.audio.play()
-    // if(this.props.currentSong.id!==song.id)
+  selectSong = (song,index) => {
+    this.props.selectedSong(song,index)
     this.props.fetchRecommendations(this.props.token, song.artists[0].id, song.id)
   }
 
@@ -86,7 +81,7 @@ class TopTracks extends PureComponent {
       <div className={classes.root}>
         <ListSubheader component="div" className={classes.topTracks}>Top Tracks</ListSubheader>
         <GridList className={classes.gridList} cols={2.5}>
-          {selectedTracks.map(eachTrack => (
+          {selectedTracks.map((eachTrack,index)=> (
             <div key={eachTrack.id}>
               <GridListTile className={classes.tile}>
                 <img src={eachTrack.album.images[0].url} alt={"song"}/>
@@ -97,8 +92,8 @@ class TopTracks extends PureComponent {
                   title: classes.title
                 }}/>
               </GridListTile>
-
-             <Button className={classes.playbutton} onClick={()=>this.selectSong(eachTrack)}>Select</Button>
+             
+             <Button className={classes.playbutton} onClick={()=>this.selectSong(eachTrack,index)}>Select</Button>
 
             </div>
           ))}
@@ -112,8 +107,7 @@ const mapStateToProps = (state) => {
 
   return {
     topTracks: state.topTracksReducer.topTracks? state.topTracksReducer.topTracks: "",
-    token: state.tokenReducer.token,
-    currentSong: state.currentSongReducer.currentSong
+    token: state.tokenReducer.token
   };
 
 };
