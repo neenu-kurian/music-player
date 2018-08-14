@@ -23,8 +23,6 @@ const styles = theme => ({
   },
   gridList: {
     flexWrap: 'nowrap',
-    // Promote the list into his own layer on Chrome. This cost memory but helps
-    // keeping high FPS.
     transform: 'translateZ(0)',
     height: 500,
     backgroundColor: 'black'
@@ -50,22 +48,16 @@ const styles = theme => ({
     color:'black',
     backgroundColor:'white'
   }
-
 });
 
 //component that displays top tracks
 class TopTracks extends PureComponent {
-
-  // audio=new Audio();
-  // state={playing:false}
   
   //function to store the played song and get recommendations
   selectSong = (song,index) => {
     this.props.selectedSong(song,index)
     this.props.fetchRecommendations(this.props.token, song.artists[0].id, song.id)
   }
-
-  
 
   render() {
 

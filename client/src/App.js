@@ -13,7 +13,7 @@ import MediaControl from './components/CurrentSong/MediaControl';
 
 class App extends Component {
 
-  //set access token once component is mounted
+  //to get access token from url fragment. i used implicit grant here for login 
   componentDidMount(){
 
     let hashParams = {};
@@ -41,19 +41,15 @@ class App extends Component {
     };
   }
 
-  render() {
-      
+  render() 
+  {
     return (
-  
         <div >
         <Header/>
         <MediaControl/>
         <TopTracks/>
         <Recommendations/>
-        </div>
-     
-      
-    );
+        </div>);
   }
 }
 
