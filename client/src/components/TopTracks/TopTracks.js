@@ -34,19 +34,19 @@ const styles = theme => ({
     background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 1' +
         '00%)'
   },
-  tile: {
+  gridListTile: {
     height: 350,
     width: 400,
     maxWidth: '100%',
     marginBottom: '40px'
   },
-  topTracks: {
+  topTracksTitle: {
     fontSize: '30px',
     color: 'white'
   },
-  playbutton:{
-    color:'black',
-    backgroundColor:'white'
+  selectButton:{
+    color:'black !important',
+    backgroundColor:'white !important'
   }
 });
 
@@ -55,6 +55,7 @@ class TopTracks extends PureComponent {
   
   //function to store the played song and get recommendations
   selectSong = (song,index) => {
+ 
     this.props.selectedSong(song,index)
     this.props.fetchRecommendations(this.props.token, song.artists[0].id, song.id)
   }
@@ -71,11 +72,11 @@ class TopTracks extends PureComponent {
     return (
       
       <div className={classes.root}>
-        <ListSubheader component="div" className={classes.topTracks}>Top Tracks</ListSubheader>
+        <ListSubheader component="div" className={classes.topTracksTitle}>Top Tracks</ListSubheader>
         <GridList className={classes.gridList} cols={2.5}>
           {selectedTracks.map((eachTrack,index)=> (
             <div key={eachTrack.id}>
-              <GridListTile className={classes.tile}>
+              <GridListTile className={classes.gridListTile}>
                 <img src={eachTrack.album.images[0].url} alt={"song"}/>
                 <GridListTileBar
                   title={eachTrack.album.name}
@@ -85,7 +86,7 @@ class TopTracks extends PureComponent {
                 }}/>
               </GridListTile>
              
-             <Button className={classes.playbutton} onClick={()=>this.selectSong(eachTrack,index)}>Select</Button>
+             <Button className={classes.selectButton} onClick={()=>this.selectSong(eachTrack,index)}>Select</Button>
 
             </div>
           ))}
