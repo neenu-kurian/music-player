@@ -9,6 +9,7 @@ export default(state = {}, action) => {
         ...state,
         token: action.payload
       };
+
     default:
       return state;
   }

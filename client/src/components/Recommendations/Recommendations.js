@@ -9,6 +9,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import {withStyles} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button'
 
 //material-ui styles
 const styles = theme => ({
@@ -23,7 +24,7 @@ const styles = theme => ({
   gridList: {
     flexWrap: 'nowrap',
     transform: 'translateZ(0)',
-    height: 400,
+    height: 500,
     backgroundColor: 'black'
   },
   title: {
@@ -35,25 +36,27 @@ const styles = theme => ({
   },
   tile: {
     height: 350,
-    width: 400
+    width: 400,
+    maxWidth: '100%',
+    marginBottom: '40px'
   },
   recommendations: {
     fontSize: '30px',
     color: 'white'
   },
-  button: {
-    margin: theme.spacing.unit
+  playbutton: {
+    color:'black',
+    backgroundColor:'white'
   }
 })
 
 class Recommendations extends PureComponent {
   
   //function to store the currently played song
-  handleClick = (song) => {
-    if ((this.props.currentSong)&&(!(this.props.currentSong.id === song.id))) {
-      this.props.selectedSong(song)
+  selectSong = (song,index) => {
+    this.props.selectedSong(song,index)
     }
-  }
+  
   
   //to render recommended songs
   render() {
@@ -71,7 +74,7 @@ class Recommendations extends PureComponent {
 
        <GridList className={classes.gridList} cols={2.5}>
           {
-            recommendedSongs.map(eachRecommendation => (
+            recommendedSongs.map((eachRecommendation,index) => (
             
             <div key={eachRecommendation.id}>
             
@@ -86,13 +89,9 @@ class Recommendations extends PureComponent {
                          }
                     }/>
               </GridListTile>
-               <audio
-                id={eachRecommendation.id}
-                controls
-                style={{width:'400px'}}
-                src={eachRecommendation.preview_url}
-                onPlay={() => this.handleClick(eachRecommendation)}>
-              </audio>
+                
+             <Button className={classes.playbutton} onClick={()=>this.selectSong(eachRecommendation,index)}>Select</Button>
+
             </div>
 
           ))

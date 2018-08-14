@@ -1,7 +1,7 @@
 import {CURRENT_SONG} from '../actions/userActions'
 
 const initialState=""
-//reducer to store current played song
+//reducer to store current played song and its index
 export default(state = initialState, action) => {
   switch (action.type) {
 

@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
 //css
 import './UserDetails.css';
 
 //component to display user details
-const UserDetails = ({ userImage, displayName}) => {
+class UserDetails extends PureComponent{ 
+
+ render()
+ {
   return (
     <div className='user-details-container'>
-      <img alt='user' className='user-image' src={userImage} />
-      <p className='user-name'>{displayName}</p>
-    </div>
-  );
+      <img alt='user' className='user-image' src={this.props.userImage} />
+      <p className='user-name'>{this.props.displayName}</p>
+     </div>);
+  }
 };
 
 UserDetails.propTypes = {
@@ -18,4 +22,5 @@ UserDetails.propTypes = {
   displayName: PropTypes.string
 };
 
-export default UserDetails;
+
+export default UserDetails
