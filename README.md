@@ -18,7 +18,9 @@ Steps to run the application:
 1. Clone the repostory
 
 2. Go to project folder and Use yarn to install all dependencies as shown below
-yarn install
+   ```
+   yarn install
+   ```
 
 3. Open a terminal and Go to project-client folder and give yarn start
 
