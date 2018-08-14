@@ -15,9 +15,11 @@ Features
 
 Steps to run the application:
 
-Clone the repostory
-Go to project folder and Use yarn to install all dependencies as shown below
-yarn install
-3.Open a terminal and Go to project-client folder and give yarn start
+1. Clone the repostory
 
-4.Login using your spotify account
+2. Go to project folder and Use yarn to install all dependencies as shown below
+yarn install
+
+3. Open a terminal and Go to project-client folder and give yarn start
+
+4. Login using your spotify account
